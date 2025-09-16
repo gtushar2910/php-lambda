@@ -13,10 +13,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Zip Lambda package
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: mbstring, intl
+
+      - name: Install PHP dependencies
+        run: |
+          composer install --no-dev --optimize-autoloader
+
+      - name: Package Lambda
         run: |
           mkdir package
-          cp -r src/* package/
+          cp -r src/* package/ || true
+          cp -r public package/ || true
+          cp -r vendor package/
+          cp index.php package/
           cd package
           zip -r ../function.zip .
 
@@ -27,8 +40,16 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Deploy to Lambda
+      - name: Deploy Lambda code
         run: |
           aws lambda update-function-code \
             --function-name my-php-fn \
             --zip-file fileb://function.zip
+
+      # - name: Attach Bref layer (PHP 8.1 FPM)
+      #   run: |
+      #     aws lambda update-function-configuration \
+      #       --function-name my-php-fn \
+      #       --runtime provided.al2 \
+      #       --handler index.php \
+      #       --layers arn:aws:lambda:${{ secrets.AWS_REGION }}:209497400698:layer:php-81-fpm:41

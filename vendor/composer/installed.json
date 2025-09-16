@@ -629,6 +629,6 @@
             "install-path": "../symfony/process"
         }
     ],
-    "dev": true,
+    "dev": false,
     "dev-package-names": []
 }

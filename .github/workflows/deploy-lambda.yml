@@ -46,10 +46,10 @@ jobs:
             --function-name my-php-fn \
             --zip-file fileb://function.zip
 
-      # - name: Attach Bref layer (PHP 8.1 FPM)
-      #   run: |
-      #     aws lambda update-function-configuration \
-      #       --function-name my-php-fn \
-      #       --runtime provided.al2 \
-      #       --handler index.php \
-      #       --layers arn:aws:lambda:${{ secrets.AWS_REGION }}:209497400698:layer:php-81-fpm:41
+      - name: Attach Bref layer (PHP 8.1 FPM)
+        run: |
+          aws lambda update-function-configuration \
+            --function-name my-php-fn \
+            --runtime provided.al2 \
+            --handler index.php \
+            --layers arn:aws:lambda:${{ secrets.AWS_REGION }}:209497400698:layer:php-81-fpm:41

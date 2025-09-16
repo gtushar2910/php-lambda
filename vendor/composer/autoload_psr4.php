@@ -15,4 +15,5 @@ return array(
     'Nyholm\\Psr7\\' => array($vendorDir . '/nyholm/psr7/src'),
     'Crwlr\\QueryString\\' => array($vendorDir . '/crwlr/query-string/src'),
     'Bref\\' => array($vendorDir . '/bref/bref/src'),
+    'App\\' => array($baseDir . '/src'),
 );
